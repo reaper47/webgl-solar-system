@@ -5,7 +5,7 @@ Our solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web
 1. Open a terminal in the project directory
 2. `npm install`
 3. `npm start`
-4. Fire up a broswer to `localhost:1337`
+4. Port number is elite so fire a broswer up to `localhost:1337`
 5. You should see `{"Test":"OK"}` if everything runs as intended
 6. Access `localhost:1337/solar`
 

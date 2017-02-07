@@ -1,5 +1,4 @@
 let express = require('express');
-let moment = require('moment');
 let app = express();
 
 //let apiController = require("./controllers/apiController.js");
@@ -21,4 +20,3 @@ htmlController(app);
 //apiController(app);
 app.listen(PORT);
 
-console.log(moment().format('ddd, hA'));
