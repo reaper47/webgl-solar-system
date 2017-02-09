@@ -4,8 +4,18 @@
   "description": "WebGL version of the solar system",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js --exec babel-node --presets es2015,stage-2"
+    "clean:build": "sudo rm -rf dist && mkdir dist",
+    "clean:modules": "sudo rm -rf node_modules",
+    "build": "npm run-script clean:build && npm run-script build:css && npm run-script build:server",
+    "build:bundle": "./node_modules/.bin/webpack --optimize-minimize --config webpack.config.js -p",
+    "build:css": "./node_modules/.bin/node-sass views/scss/style.scss public/css/style.css",
+    "build:sass": "./node_modules/.bin/node-sass -r --output-style compressed ./views/scss/style.scss -o ./public/css/",
+    "build:server": "babel -d ./dist ./ --ignore=node_modules --compact=true -s",
+    "debug": "node --debug ./dist/app.js",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "start": "node ./dist/app.js",
+    "test": "standard",
+    "watch:sass": "npm run-script build:sass && npm run-script build:sass -- -w"
   },
   "repository": {
     "type": "git",
@@ -20,7 +30,6 @@
   "author": "Marc-Andre Charland",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.16.0",
     "ejs": "^2.5.5",
     "express": "^4.14.1"
   },
@@ -30,8 +39,11 @@
   "homepage": "https://github.com/reaper47/webgl-solar-system#readme",
   "devDependencies": {
     "babel-cli": "^6.22.2",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
-    "nodemon": "^1.11.0"
+    "flow-bin": "^0.38.0",
+    "node-sass": "^4.5.0",
+    "webpack": "^2.2.1"
   }
 }
