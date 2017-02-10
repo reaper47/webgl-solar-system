@@ -1,39 +1,23 @@
-/* @flow */
+'use strict';
 
-let express = require('express')
-let sass = require('sass')
-let app = express()
-let htmlController = require('./controllers/htmlController.js')
+var express = require('express');
+var app = express();
 
-// let apiController = require("./controllers/apiController.js");
+//let apiController = require("./controllers/apiController.js");
+var htmlController = require('./controllers/htmlController.js');
 
-const PORT = process.env.PORT || 1337
+var PORT = process.env.PORT || 1337;
 
-app.configure(() => {
-  app.set('views', `${__dirname}/views`)
-  app.set('view engine', 'ejs')
-  app.use(express.bodyParser())
-  app.use(express.methodOverride())
-  app.use(app.router)
+app.set('view engine', 'ejs');
+app.use('/', express.static(__dirname + '/public'));
 
-  app.use(
-    sass.middleware({
-      src: `${__dirname}/scss`,
-      dest: `${__dirname}/public/css`,
-      prefix: '/stylesheets',
-      debug: true
-    })
-  )
-})
+console.log(__dirname + '/public');
 
-app.use('/', express.static(`${__dirname}/public`))
+app.use('/', function (req, res, next) {
+    console.log('Request Url: ' + req.url);
+    next();
+});
 
-app.use('/', (req, res, next) => {
-  console.log(`Request Url: ${req.url}`)
-  next()
-})
-
-htmlController(app)
-// apiController(app);
-app.listen(PORT)
-
+htmlController(app);
+//apiController(app);
+app.listen(PORT);

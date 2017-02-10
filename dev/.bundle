@@ -1,0 +1,6 @@
+#!/bin/bash
+for file in ./public/js/{../../dev/public/js/libs/three.min.js,classes/TrackballControls.js,/scenes/solar_scene.js}; do
+  cat "$file" >> bundle.js
+done
+mv bundle.js ./public/js/
+

@@ -9,8 +9,12 @@ pids
 *.seed
 *.pid.lock
 
-# Builds
-build
+# Production files and directories
+/controllers/
+/public/
+/views/
+app.js
+
 
 # Dependency directories
 node_modules/
