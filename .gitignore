@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Production files and directories
+/controllers/
+/public/
+/views/
+app.js
+
+
+# Dependency directories
+node_modules/
+

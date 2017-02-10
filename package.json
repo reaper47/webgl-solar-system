@@ -4,8 +4,21 @@
   "description": "WebGL version of the solar system",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js --exec babel-node --presets es2015,stage-2"
+    "cp:assets": "cp -avr ./dev/public/img ./public/; cp -avr ./dev/views ./",
+    "clean:all": "sudo rm -rf ./app.js ./public ./controllers ./views node_modules",
+    "clean:build": "sudo rm -rf ./app.js ./public ./controllers ./views",
+    "clean:modules": "sudo rm -rf node_modules",
+    "build": "npm run-script clean:build && npm run-script build:css && npm run-script build:js && npm run-script build:jsbundle && npm run-script rm:js && npm run-script cp:assets",
+    "build:jsbundle": "./dev/.bundle",
+    "build:css": "./node_modules/.bin/node-sass -r --output-style compressed ./dev/views/scss/style.scss -o ./public/css/",
+    "build:js": "babel ./dev --out-dir ./ --ignore=node_modules --compact=false",
+    "debug": "node --debug ./dist/app.js",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "mv:js": "mv -t ./public/js/ ./public/js/scenes/solar_scene.js ./public/js/libs/three.min.js ./public/js/classes/TrackballControls.js",
+    "rm:js": "sudo rm -rf ./public/js/{scenes/,classes/,libs/} ./public/js/{scene_world.js,solar_scene.js,three.min.js,TrackballControls.js}",
+    "start": "node ./app.js",
+    "test": "./node_modules/.bin/standard",
+    "watch:css": "npm run-script build:css -- -w"
   },
   "repository": {
     "type": "git",
@@ -20,7 +33,6 @@
   "author": "Marc-Andre Charland",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.16.0",
     "ejs": "^2.5.5",
     "express": "^4.14.1"
   },
@@ -30,8 +42,11 @@
   "homepage": "https://github.com/reaper47/webgl-solar-system#readme",
   "devDependencies": {
     "babel-cli": "^6.22.2",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
-    "nodemon": "^1.11.0"
+    "flow-bin": "^0.38.0",
+    "node-sass": "^4.5.0",
+    "standard": "^8.6.0"
   }
 }
