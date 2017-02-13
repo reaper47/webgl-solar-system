@@ -1,0 +1,44 @@
+#!/bin/bash
+INDEXPROD="<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Solar System</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+    </head>
+    <body>   
+        <script type="text/javascript" src="/js/bundle.js"></script>
+    </body>
+</html>
+"
+
+INDEXDEV="<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Solar System</title>
+        <link rel=stylesheet type=text/css href=/css/style.css>
+        <script type=text/javascript src=/js/libs/three.min.js></script>
+    </head>
+    <body>
+        <script type=text/javascript src=/js/classes/ProtoPlanet.js></script>
+        <script type=text/javascript src=/js/classes/TrackballControls.js></script>
+        <script type=text/javascript src=/js/scenes/solar_scene.js></script>
+    </body>
+</html>
+"
+INDEX=""
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        -d|--dev) INDEX="$INDEXDEV"
+        ;;
+        -p|--prod) INDEX="$INDEXPROD"
+    esac
+    shift
+done
+
+DESTFILE=./views/index.ejs
+sudo rm -f $DESTFILE
+echo "$INDEX" >> "$DESTFILE"
+

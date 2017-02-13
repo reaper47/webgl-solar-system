@@ -13,7 +13,7 @@ pids
 /controllers/
 /public/
 /views/
-app.js
+/app.js
 
 
 # Dependency directories

@@ -1,5 +1,4 @@
 /* @flow */
-
 let scene;
 let camera;
 let renderer;
@@ -17,20 +16,25 @@ function createCamera() {
         45,
         window.innerWidth / window.innerHeight,
         0.01,
-        1000
+        50000
     );
+    
+
     camera.position.x = 90;
     camera.position.y = 32;
     camera.position.z = 32;
     camera.lookAt(scene.position);
     cameraControl = new THREE.TrackballControls(camera);
     
+    cameraControl.minDistance = 25;
+	  cameraControl.maxDistance = 3100;
+    
     cameraControl.rotateSpeed = 1.5;
     cameraControl.zoomSpeed = 1.5;
     cameraControl.panSpeed = 0.8;
     
     cameraControl.noZoom = false;
-    cameraControl.noPan = false;
+    cameraControl.noPan = true;
     
     cameraControl. staticMoving = false;
     cameraControl.dynamicDampingFactor = 0.1;
@@ -49,50 +53,6 @@ function createLight() {
     scene.add(ambientLight);
 }
 
-function createEarthMaterial() {
-    let earthTexture = new THREE.Texture();
-    let loader1 = new THREE.ImageLoader();
-    loader1.load('/img/earth/earthmap.jpg', (image) => {
-        earthTexture.image = image;
-        earthTexture.needsUpdate = true;
-    });
-
-    let normalTexture = new THREE.Texture();
-    let loader2 = new THREE.ImageLoader();
-    loader2.load('/img/earth/earth_normalmap_flat2k.jpg', (image) => {
-        normalTexture.image = image;
-        normalTexture.needsUpdate = true;
-    });
-
-    let specularTexture = new THREE.Texture();
-    let loader3 = new THREE.ImageLoader();
-    loader3.load('/img/earth/spec_map.png', (image) => {
-        specularTexture.image = image;
-        specularTexture.needsUpdate = true;
-    });
-
-    let earthMaterial = new THREE.MeshPhongMaterial({
-        map: earthTexture,
-        normalMap: normalTexture,
-        normalScale: new THREE.Vector2(2, 2),
-        specularMap: specularTexture,
-        specular: new THREE.Color(0x262626)
-    });
-
-    return earthMaterial;
-}
-
-function createEarth() {
-    let sphereGeometry = new THREE.SphereGeometry(15, 32, 32);
-    let sphereMaterial = createEarthMaterial();
-    let earthMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
-
-    earthMesh.name = 'earth';
-    scene.add(earthMesh);
-}
-
-// Transparent clouds:
-// https://graphicdesign.stackexchange.com/questions/2549/photoshop-cs5-setting-a-black-background-to-transparent
 function createClouds() {
     let sphereGeometry = new THREE.SphereGeometry(15.1, 32, 32);
     let cloudsTexture = new THREE.Texture();
@@ -114,7 +74,7 @@ function createClouds() {
 }
 
 function createStarfield() {
-    let sphereGeometry = new THREE.SphereGeometry(90, 128, 128);
+    let sphereGeometry = new THREE.SphereGeometry(2048, 32, 32);
 
     let envTexture = new THREE.Texture();
     let loader = new THREE.ImageLoader();
@@ -150,13 +110,27 @@ function createGlow() {
 
 }
 
+const earthParams = { 
+      'radius': 15,
+      'line': 32,
+      'width': 32,
+      'texture': '/img/earth/earthmap.jpg',
+      'normal': '/img/earth/earth_normalmap_flat2k.jpg',
+      'specular': '/img/earth/spec_map.png',
+      'normalScale': [2, 2],
+      'specularColor': 0x262626
+    }
+
 function init() {
     scene = new THREE.Scene();
 
     createRenderer();
     createCamera();
     createLight();
-    createEarth();
+    
+    let earth = new ProtoPlanet("earth", earthParams, scene)
+    earth.createPlanet()
+    
     createClouds();
     createStarfield();
 
