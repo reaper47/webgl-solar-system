@@ -51,21 +51,23 @@ class ProtoPlanet {
     return texture
   }
   
-  createPhongMaterial(params : Object, isSun : Boolean) {
-    let planetMaterial
+  createPhongMaterial(params : Object) {
+    let planetMaterial = new THREE.MeshPhongMaterial()  
+         
+    for (let param in params) {
+      try {
+        planetMaterial[param] = params[param]
+      } catch(e) {}
+    }
     
-    if (!isSun) {
-      planetMaterial = new THREE.MeshPhongMaterial()  
-     } else {
-      planetMaterial = new THREE.MeshBasicMaterial()  
-     }
-    
-     for (let param in params) {
-        try {
-          planetMaterial[param] = params[param]
-        } catch(e) {}
-     }
-    
+    return planetMaterial  
+  }
+  
+  createBasicMaterial(params : Object) {
+    let planetMaterial = new THREE.MeshBasicMaterial({
+      map: params.map
+    })  
+
     return planetMaterial  
   }
   
@@ -85,23 +87,27 @@ class ProtoPlanet {
     planet.position.z = this.params.radius + orbitRadius * Math.sin(this.angle)
   }
     
-  createPlanet(isSun) {
+  createPlanet(params : Object) {
     this.createTexture(this.params.texture, this.params.normal, this.params.specular,
                        this.params.normalScale, this.params.specularColor)
                        
     let sphereGeometry : Object = new THREE.SphereGeometry(this.params.radius,
                                                            this.params.line,
                                                            this.params.width)
-                                                           
-    let sphereMaterial : Object = this.createPhongMaterial(this.textures, true)    
+
+    let sphereMaterial   
+    params.isSun ? sphereMaterial = this.createBasicMaterial(this.textures) : (
+                   sphereMaterial = this.createPhongMaterial(this.textures))
+                                                        
     let planetMesh : Object = new THREE.Mesh(sphereGeometry, sphereMaterial)
-        
-    if (isSun) {
-        let sunlight = new THREE.PointLight(0xffffff, 1, 10000 )
-	    sunlight.add(planetMesh)
-	    this.scene.add(sunlight)
-    }   
-        
+
+    if (params.isSun) {
+      let sunlight = new THREE.PointLight(0xffffff, 1, params.lightIntensity)
+      sunlight.power = params.lightPower
+	  sunlight.add(planetMesh)
+	  this.scene.add(sunlight)
+    }
+
     planetMesh.name = this.name
     this.scene.add(planetMesh);
   }

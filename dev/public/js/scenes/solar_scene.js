@@ -35,33 +35,6 @@ function createCamera () {
   cameraControl.staticMoving = false
   cameraControl.dynamicDampingFactor = 0.1
 
-  cameraControl.keys = [65, 83, 68]
-  cameraControl.addEventListener('change', render)
-}
-
-function createLight () {  
-  
-  let texture : Object = new THREE.Texture()
-  
-  let loader : Object = new THREE.ImageLoader()
-  loader.load('/img/sun/sunmap.jpg', (img) => {
-    texture.image = img
-    texture.needsUpdate = true
-  })
-  
-	let geometry = new THREE.SphereGeometry(30, 32, 32)
-	let material = new THREE.MeshBasicMaterial({
-	  map: texture,
-	  side: THREE.DoubleSide
-	})
-	let sun = new THREE.Mesh(geometry, material)
-
-  let sunlight = new THREE.PointLight(0xffffff, 1, 10000 )
-  sunlight.position.set(0, 0, 0)
-	sunlight.add(sun)
-	scene.add(sunlight)
-	scene.add(sun)
- 
 }
 
 function createStarfield () {
@@ -101,21 +74,20 @@ function init () {
 
   createRenderer()
   createCamera()
-  //createLight()
 
   let earth = new ProtoPlanet('earth', earthParams, scene, 0.0005, false)
   earthParams['obj'] = earth
-  earth.createPlanet()
+  earth.createPlanet(notSun)
 
   let earthClouds = new ProtoPlanet('earthClouds', earthCloudsParams, scene, 0.0007, true)
   earthCloudsParams['obj'] = earthClouds
-  earthClouds.createPlanet()
+  earthClouds.createPlanet(notSun)
 
   createStarfield()
 
   let sun = new ProtoPlanet('sun', sunParams, scene, 0.0007, true)
   sunParams['obj'] = sun
-  sun.createPlanet(true)
+  sun.createPlanet(isSun)
 
   window.addEventListener('resize', onWindowResize, false)
   document.body.appendChild(renderer.domElement)

@@ -1,3 +1,4 @@
+/* @flow */
 const earthParams = {
   'radius': 15,
   'line': 32,
@@ -29,5 +30,15 @@ const sunParams = {
   'specular': '',
   'normalScale': 0,
   'specularColor': 0
+}
+
+const isSun = {
+  'isSun': true,
+  'lightPower': 1000,
+  'lightIntensity': 100000
+}
+
+const notSun = {
+  'isSun': false
 }
 
