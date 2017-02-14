@@ -5,32 +5,37 @@ class ProtoPlanet {
   textures : Object
   sphereParams : Object
   scene : Object
+  angle : Number
+  rotationSpeed : Number
+  transparent : Boolean
   
-  constructor(name, sphereParams, scene) {
+  constructor(name, sphereParams, scene, rotationSpeed, transparent) {
       this.name = name
       this.params = sphereParams
-      this.textures = {}
+      this.textures = { 'transparent': transparent}
       this.scene = scene
+      this.rotationSpeed = rotationSpeed
+      this.angle = 0
   }
    
   createTexture(texture : String, normal : String, specular : String, 
-                normalScale : Array<Number>, specularColor : Number) {
+                normalScale : Array<Number>, specularColor : Number) { 
                          
     texture.length !== 0 ? (
       this.textures.map = this.loadTexture(texture)) : (
-      this.textures.map = "")
+      this.textures.map = '')
     normal.length !== 0 ? (
       this.textures.normalMap = this.loadTexture(normal)) : (
-      this.textures.normalMap = "")
+      this.textures.normalMap = '')
     specular.length !== 0 ? (
       this.textures.specularMap = this.loadTexture(specular)) : (
-      this.textures.specularMap = "")
+      this.textures.specularMap = '')
     normalScale.length === 2 ? (
       this.textures.normalScale = new THREE.Vector2(normalScale[0], normalScale[1])) : (
-      this.textures.normalScale = "" )
+      this.textures.normalScale = '')
     specularColor.length !== 0 ? (
       this.textures.specular = new THREE.Color(specularColor)) : (
-      this.textures.specular = "" )
+      this.textures.specular = '')
       
   }
   
@@ -41,22 +46,46 @@ class ProtoPlanet {
     loader.load(path, (img) => {
       texture.image = img
       texture.needsUpdate = true
-    });
-    
+    })
+
     return texture
   }
   
-  createPhongMaterial(params : Object) {
-    let planetMaterial : Object = new THREE.MeshPhongMaterial()
+  createPhongMaterial(params : Object, isSun : Boolean) {
+    let planetMaterial
     
-    for (let param in params) {
-      planetMaterial[param] = params[param]
-    }
+    if (!isSun) {
+      planetMaterial = new THREE.MeshPhongMaterial()  
+     } else {
+      planetMaterial = new THREE.MeshBasicMaterial()  
+     }
+    
+     for (let param in params) {
+        try {
+          planetMaterial[param] = params[param]
+        } catch(e) {}
+     }
     
     return planetMaterial  
   }
+  
+  movePlanet(rotationDir : String, orbitRadius : Number, angleAmp : Number) {
+    this.angle += angleAmp 
+    let planet = this.scene.getObjectByName(this.name)
+
+    if (rotationDir === 'x') {
+      planet.rotation.x += this.rotationSpeed
+    } else if (rotationDir === 'y') {
+      planet.rotation.y += this.rotationSpeed
+    } else {
+      planet.rotation.z += this.rotationSpeed
+    }
     
-  createPlanet() {
+    planet.position.x = this.params.radius + orbitRadius * Math.cos(this.angle)
+    planet.position.z = this.params.radius + orbitRadius * Math.sin(this.angle)
+  }
+    
+  createPlanet(isSun) {
     this.createTexture(this.params.texture, this.params.normal, this.params.specular,
                        this.params.normalScale, this.params.specularColor)
                        
@@ -64,11 +93,17 @@ class ProtoPlanet {
                                                            this.params.line,
                                                            this.params.width)
                                                            
-    let sphereMaterial : Object = this.createPhongMaterial(this.textures)    
+    let sphereMaterial : Object = this.createPhongMaterial(this.textures, true)    
     let planetMesh : Object = new THREE.Mesh(sphereGeometry, sphereMaterial)
-    
+        
+    if (isSun) {
+        let sunlight = new THREE.PointLight(0xffffff, 1, 10000 )
+	    sunlight.add(planetMesh)
+	    this.scene.add(sunlight)
+    }   
+        
     planetMesh.name = this.name
     this.scene.add(planetMesh);
   }
-
 }
+

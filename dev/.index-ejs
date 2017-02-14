@@ -23,6 +23,7 @@ INDEXDEV="<!DOCTYPE html>
     <body>
         <script type=text/javascript src=/js/classes/ProtoPlanet.js></script>
         <script type=text/javascript src=/js/classes/TrackballControls.js></script>
+        <script type=text/javascript src=/js/scenes/planets.js></script>
         <script type=text/javascript src=/js/scenes/solar_scene.js></script>
     </body>
 </html>
