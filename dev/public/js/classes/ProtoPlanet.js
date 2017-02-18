@@ -70,8 +70,10 @@ class ProtoPlanet {
 
     return planetMaterial  
   }
-  
+    
   movePlanet(rotationDir : String, orbitRadius : Number, angleAmp : Number) {
+    if (this.name === 'sun') return
+        
     this.angle += angleAmp 
     let planet = this.scene.getObjectByName(this.name)
 
@@ -87,7 +89,7 @@ class ProtoPlanet {
     planet.position.z = this.params.radius + orbitRadius * Math.sin(this.angle)
   }
     
-  createPlanet(params : Object) {
+  createPlanet(params : Object, pos : Object) {
     this.createTexture(this.params.texture, this.params.normal, this.params.specular,
                        this.params.normalScale, this.params.specularColor)
                        
@@ -108,6 +110,10 @@ class ProtoPlanet {
 	  this.scene.add(sunlight)
     }
 
+    this.angle = Math.random(0, 4294967295)
+    planetMesh.position.x = pos.x * Math.sin(this.angle)
+    planetMesh.position.z = pos.z * Math.cos(this.angle)
+    
     planetMesh.name = this.name
     this.scene.add(planetMesh);
   }

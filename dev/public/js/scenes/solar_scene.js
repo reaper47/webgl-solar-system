@@ -23,14 +23,14 @@ function createCamera () {
   cameraControl = new THREE.TrackballControls(camera)
 
   cameraControl.minDistance = 25
-  cameraControl.maxDistance = 3100
+  cameraControl.maxDistance = 3000
 
   cameraControl.rotateSpeed = 1.5
   cameraControl.zoomSpeed = 1.5
   cameraControl.panSpeed = 0.8
 
   cameraControl.noZoom = false
-  cameraControl.noPan = true
+  cameraControl.noPan = false
 
   cameraControl.staticMoving = false
   cameraControl.dynamicDampingFactor = 0.1
@@ -74,32 +74,28 @@ function init () {
 
   createRenderer()
   createCamera()
-
-  let earth = new ProtoPlanet('earth', earthParams, scene, 0.0005, false)
-  earthParams['obj'] = earth
-  earth.createPlanet(notSun)
-
-  let earthClouds = new ProtoPlanet('earthClouds', earthCloudsParams, scene, 0.0007, true)
-  earthCloudsParams['obj'] = earthClouds
-  earthClouds.createPlanet(notSun)
-
   createStarfield()
-
-  let sun = new ProtoPlanet('sun', sunParams, scene, 0.0007, true)
-  sunParams['obj'] = sun
-  sun.createPlanet(isSun)
+  
+  for (let i = 0, n = planets.length; i < n; i++) {
+    let planet = new ProtoPlanet(planets[i][0], planets[i][1], scene, planets[i][2], false)
+    planets[i][1]['obj'] = planet
+    
+    
+    planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]})
+  }
 
   window.addEventListener('resize', onWindowResize, false)
   document.body.appendChild(renderer.domElement)
-
   animate()
   render()
 }
 
 function render () {
-  sunParams['obj'].movePlanet('y', 0, 0)
-  earthParams['obj'].movePlanet('y', 100, 0.001)
-  earthCloudsParams['obj'].movePlanet('y', 100, 0.001)
+  for (let i = 0, n = planets.length; i < n; i++) {
+    if (planets[i][1]['obj'].name !== 'sun') {
+        planets[i][1]['obj'].movePlanet('y', planets[i][4], planets[i][5]);
+    }
+  }
   renderer.render(scene, camera)
 }
 
