@@ -16,14 +16,15 @@ function createCamera () {
     45,
     window.innerWidth / window.innerHeight,
     0.01,
-    50000
+    100000
   )
   camera.position.set(-701, 547, -1034)
   camera.lookAt(scene.position)
   cameraControl = new THREE.TrackballControls(camera)
 
+  // to have the perspective from the sun, cameraControl.minDistance = Infinity
   cameraControl.minDistance = 25
-  cameraControl.maxDistance = 3000
+  cameraControl.maxDistance = 48000
 
   cameraControl.rotateSpeed = 1.5
   cameraControl.zoomSpeed = 1.5
@@ -34,11 +35,10 @@ function createCamera () {
 
   cameraControl.staticMoving = false
   cameraControl.dynamicDampingFactor = 0.1
-
 }
 
 function createStarfield () {
-  let sphereGeometry = new THREE.SphereGeometry(2048, 32, 32)
+  let sphereGeometry = new THREE.SphereGeometry(32768, 32, 32)
 
   let envTexture = new THREE.Texture()
   let loader = new THREE.ImageLoader()
@@ -75,7 +75,7 @@ function init () {
   createRenderer()
   createCamera()
   createStarfield()
-  
+
   for (let i = 0, n = planets.length; i < n; i++) {
     const orbitParams = {
       radius: planets[i][4],
@@ -83,7 +83,7 @@ function init () {
       color: orbitColors[planets[i][0]],
       speed: planets[i][5]
     }
-        
+
     let planet = new ProtoPlanet(
       planets[i][0], // name
       planets[i][1], // sphereParams
@@ -91,8 +91,8 @@ function init () {
       planets[i][2], // rotationSpeed
       false,         // transparent
       orbitParams
-    ) 
-                                 
+    )
+
     planets[i][1]['obj'] = planet
     planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]})
   }
@@ -106,7 +106,7 @@ function init () {
 function render () {
   for (let i = 0, n = planets.length; i < n; i++) {
     if (planets[i][1]['obj'].name !== 'sun') {
-      planets[i][1]['obj'].movePlanet('y', planets[i][5]);
+      planets[i][1]['obj'].movePlanet('y', planets[i][5])
     } else {
       scene.getObjectByName('sun').rotateY(0.001)
     }

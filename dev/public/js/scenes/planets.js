@@ -1,9 +1,11 @@
 /* @flow */
+const sizeEarth = 15
+
 const sunParams = {
-  'radius': 100,
+  'radius': 200,
   'line': 32,
   'width': 32,
-  'texture': '/img/texture_maps/sunmap.jpg',
+  'texture': '/img/texture_maps/texture_sun.jpg',
   'normal': '',
   'specular': '',
   'normalScale': 0,
@@ -12,8 +14,8 @@ const sunParams = {
 
 const isSun = {
   'isSun': true,
-  'lightPower': 35,
-  'lightIntensity': 2000
+  'lightPower': 15,
+  'lightIntensity': 2000 * 200
 }
 
 const notSun = {
@@ -21,7 +23,7 @@ const notSun = {
 }
 
 const mercuryParams = {
-  'radius': 10,
+  'radius': sizeEarth * 0.38,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/mercury.jpg',
@@ -32,7 +34,7 @@ const mercuryParams = {
 }
 
 const venusParams = {
-  'radius': 12.5,
+  'radius': sizeEarth * 0.95,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/venus_surface.jpg',
@@ -43,10 +45,10 @@ const venusParams = {
 }
 
 const earthParams = {
-  'radius': 15,
+  'radius': sizeEarth,
   'line': 32,
   'width': 32,
-  'texture': '/img/earth/2k_earth_daymap.jpg',
+  'texture': '/img/earth/earthmap.jpg',
   'normal': '/img/earth/earth_normalmap_flat2k.jpg',
   'specular': '/img/earth/spec_map.png',
   'normalScale': [2, 2],
@@ -54,7 +56,7 @@ const earthParams = {
 }
 
 const earthCloudsParams = {
-  'radius': 15.1,
+  'radius': sizeEarth + 0.1,
   'line': 32,
   'width': 32,
   'texture': '/img/earth/clouds_1k.png',
@@ -65,7 +67,7 @@ const earthCloudsParams = {
 }
 
 const marsParams = {
-  'radius': 14,
+  'radius': sizeEarth * 0.53,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/mars.jpg',
@@ -76,7 +78,7 @@ const marsParams = {
 }
 
 const jupiterParams = {
-  'radius': 30,
+  'radius': sizeEarth * 5,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_jupiter.jpg',
@@ -87,7 +89,7 @@ const jupiterParams = {
 }
 
 const saturnParams = {
-  'radius': 25,
+  'radius': sizeEarth * 3.5,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_saturn.jpg',
@@ -98,7 +100,7 @@ const saturnParams = {
 }
 
 const uranusParams = {
-  'radius': 20,
+  'radius': sizeEarth * 2.2,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_uranus.jpg',
@@ -109,7 +111,7 @@ const uranusParams = {
 }
 
 const neptuneParams = {
-  'radius': 18,
+  'radius': sizeEarth * 2,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_neptune.jpg',
@@ -120,7 +122,7 @@ const neptuneParams = {
 }
 
 const plutoParams = {
-  'radius': 7,
+  'radius': sizeEarth,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_ceres_fictional.jpg',
@@ -142,17 +144,19 @@ const orbitColors = {
   'pluto': 0x9E9E9E
 }
 
+const radiusOffset = 200
+
 const planets = [
   ['sun', sunParams, 0.0007, isSun, 0, 0],
-  ['mercury', mercuryParams, 0.0005, notSun, 200, 0.00005],
-  ['venus', venusParams, 0.0005, notSun, 400, 0.00004],
-  ['earth', earthParams, 0.0005, notSun, 500, 0.00003],
-  //['earthClouds', earthCloudsParams, 0.0007, notSun, 300, 0.001]
-  ['mars', marsParams, 0.0005, notSun, 600, 0.00002],
-  ['jupiter', jupiterParams, 0.0005, notSun, 800, 0.000008],
-  ['saturn', saturnParams, 0.0005, notSun, 900, 0.000005],
-  ['uranus', uranusParams, 0.0005, notSun, 1000, 0.000004],
-  ['neptune', neptuneParams, 0.0005, notSun, 1100, 0.000002],
-  ['pluto', plutoParams, 0.0005, notSun, 1300, 0.000001],
+  ['mercury', mercuryParams, 0.0005, notSun, 57 + radiusOffset, 0.00005],
+  ['venus', venusParams, 0.0005, notSun, 108 + radiusOffset, 0.00004],
+  ['earth', earthParams, 0.0005, notSun, 150 + radiusOffset, 0.00003],
+  // ['earthClouds', earthCloudsParams, 0.0007, notSun, 300, 0.001]
+  ['mars', marsParams, 0.0005, notSun, 228 + radiusOffset, 0.00002],
+  ['jupiter', jupiterParams, 0.0005, notSun, 588 + radiusOffset, 0.000008],
+  ['saturn', saturnParams, 0.0005, notSun, 1430 + radiusOffset, 0.000005],
+  ['uranus', uranusParams, 0.0005, notSun, 2570 + radiusOffset, 0.000004],
+  ['neptune', neptuneParams, 0.0005, notSun, 4500 + radiusOffset, 0.000002],
+  ['pluto', plutoParams, 0.0005, notSun, 5910 + radiusOffset, 0.000001]
 ]
 
