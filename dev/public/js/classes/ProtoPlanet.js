@@ -8,14 +8,20 @@ class ProtoPlanet {
   angle : Number
   rotationSpeed : Number
   transparent : Boolean
+  orbitParams : Object
+  orbitSpeed : Number
   
-  constructor(name, sphereParams, scene, rotationSpeed, transparent) {
+  constructor(name, sphereParams, scene, rotationSpeed, transparent, orbitParams) {
       this.name = name
       this.params = sphereParams
       this.textures = { 'transparent': transparent}
       this.scene = scene
       this.rotationSpeed = rotationSpeed
-      this.angle = 0
+      this.angle = Math.random(0, Math.PI)
+      this.orbitRadius = orbitParams.radius
+      this.orbitSegments = orbitParams.segments
+      this.orbitColor = orbitParams.color
+      this.orbitSpeed = orbitParams.speed
   }
    
   createTexture(texture : String, normal : String, specular : String, 
@@ -71,10 +77,8 @@ class ProtoPlanet {
     return planetMaterial  
   }
     
-  movePlanet(rotationDir : String, orbitRadius : Number, angleAmp : Number) {
-    if (this.name === 'sun') return
-        
-    this.angle += angleAmp 
+  movePlanet(rotationDir : String, angleAmp : Number) {
+    this.angle += angleAmp
     let planet = this.scene.getObjectByName(this.name)
 
     if (rotationDir === 'x') {
@@ -84,11 +88,22 @@ class ProtoPlanet {
     } else {
       planet.rotation.z += this.rotationSpeed
     }
-    
-    planet.position.x = this.params.radius + orbitRadius * Math.cos(this.angle)
-    planet.position.z = this.params.radius + orbitRadius * Math.sin(this.angle)
+       
+    planet.position.x = Math.cos(this.angle * 100) * this.orbitRadius
+    planet.position.z = Math.sin(this.angle * 100) * this.orbitRadius
   }
+  
+  // adapted from stackoverflow.com/questions/13756112
+  createOrbitRing() {
+    const orbitMaterial = new THREE.LineBasicMaterial({ color: this.orbitColor })
+    const orbitGeometry = new THREE.CircleGeometry(this.orbitRadius, this.orbitSegments)
+    orbitGeometry.vertices.shift();
     
+    let orbit = new THREE.Line(orbitGeometry, orbitMaterial)
+    orbit.rotateX(Math.PI / 2)   
+    scene.add(orbit)
+  }
+     
   createPlanet(params : Object, pos : Object) {
     this.createTexture(this.params.texture, this.params.normal, this.params.specular,
                        this.params.normalScale, this.params.specularColor)
@@ -96,11 +111,11 @@ class ProtoPlanet {
     let sphereGeometry : Object = new THREE.SphereGeometry(this.params.radius,
                                                            this.params.line,
                                                            this.params.width)
-
-    let sphereMaterial   
+                                                           
+    let sphereMaterial
     params.isSun ? sphereMaterial = this.createBasicMaterial(this.textures) : (
                    sphereMaterial = this.createPhongMaterial(this.textures))
-                                                        
+                                    
     let planetMesh : Object = new THREE.Mesh(sphereGeometry, sphereMaterial)
 
     if (params.isSun) {
@@ -108,11 +123,12 @@ class ProtoPlanet {
       sunlight.power = params.lightPower
 	  sunlight.add(planetMesh)
 	  this.scene.add(sunlight)
+    } else {
+      this.createOrbitRing()
     }
-
-    this.angle = Math.random(0, 4294967295)
-    planetMesh.position.x = pos.x * Math.sin(this.angle)
-    planetMesh.position.z = pos.z * Math.cos(this.angle)
+    
+    planetMesh.position.x = Math.cos(this.angle * 100) * this.orbitRadius
+    planetMesh.position.z = Math.sin(this.angle * 100) * this.orbitRadius
     
     planetMesh.name = this.name
     this.scene.add(planetMesh);

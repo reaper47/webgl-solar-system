@@ -77,10 +77,23 @@ function init () {
   createStarfield()
   
   for (let i = 0, n = planets.length; i < n; i++) {
-    let planet = new ProtoPlanet(planets[i][0], planets[i][1], scene, planets[i][2], false)
+    const orbitParams = {
+      radius: planets[i][4],
+      segments: 90,
+      color: orbitColors[planets[i][0]],
+      speed: planets[i][5]
+    }
+        
+    let planet = new ProtoPlanet(
+      planets[i][0], // name
+      planets[i][1], // sphereParams
+      scene,         // scene
+      planets[i][2], // rotationSpeed
+      false,         // transparent
+      orbitParams
+    ) 
+                                 
     planets[i][1]['obj'] = planet
-    
-    
     planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]})
   }
 
@@ -93,7 +106,9 @@ function init () {
 function render () {
   for (let i = 0, n = planets.length; i < n; i++) {
     if (planets[i][1]['obj'].name !== 'sun') {
-        planets[i][1]['obj'].movePlanet('y', planets[i][4], planets[i][5]);
+      planets[i][1]['obj'].movePlanet('y', planets[i][5]);
+    } else {
+      scene.getObjectByName('sun').rotateY(0.001)
     }
   }
   renderer.render(scene, camera)

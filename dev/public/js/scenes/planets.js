@@ -13,7 +13,7 @@ const sunParams = {
 const isSun = {
   'isSun': true,
   'lightPower': 35,
-  'lightIntensity': 1000
+  'lightIntensity': 2000
 }
 
 const notSun = {
@@ -46,7 +46,7 @@ const earthParams = {
   'radius': 15,
   'line': 32,
   'width': 32,
-  'texture': '/img/earth/earthmap.jpg',
+  'texture': '/img/earth/2k_earth_daymap.jpg',
   'normal': '/img/earth/earth_normalmap_flat2k.jpg',
   'specular': '/img/earth/spec_map.png',
   'normalScale': [2, 2],
@@ -130,25 +130,29 @@ const plutoParams = {
   'specularColor': 0
 }
 
+const orbitColors = {
+  'mercury': 0x5D4037,
+  'venus': 0x7B1FA2,
+  'earth': 0x1976D2,
+  'mars': 0xD32F2F,
+  'jupiter': 0xFF5722,
+  'saturn': 0xFBC02D,
+  'uranus': 0x3F51B5,
+  'neptune': 0x607D8B,
+  'pluto': 0x9E9E9E
+}
+
 const planets = [
   ['sun', sunParams, 0.0007, isSun, 0, 0],
-  ['mercury', mercuryParams, 0.0005, notSun, 200, 0.003],
-  ['venus', venusParams, 0.0005, notSun, 400, 0.002],
-  ['earth', earthParams, 0.0005, notSun, 500, 0.001],
+  ['mercury', mercuryParams, 0.0005, notSun, 200, 0.00005],
+  ['venus', venusParams, 0.0005, notSun, 400, 0.00004],
+  ['earth', earthParams, 0.0005, notSun, 500, 0.00003],
   //['earthClouds', earthCloudsParams, 0.0007, notSun, 300, 0.001]
-  ['mars', marsParams, 0.0005, notSun, 600, 0.004],
-  ['jupiter', jupiterParams, 0.0005, notSun, 800, 0.006],
-  ['saturn', saturnParams, 0.0005, notSun, 900, 0.007],
-  ['uranus', uranusParams, 0.0005, notSun, 1000, 0.009],
-  ['neptune', neptuneParams, 0.0005, notSun, 1100, 0.0025],
-  ['pluto', plutoParams, 0.0005, notSun, 1200, 0.0005],
+  ['mars', marsParams, 0.0005, notSun, 600, 0.00002],
+  ['jupiter', jupiterParams, 0.0005, notSun, 800, 0.000008],
+  ['saturn', saturnParams, 0.0005, notSun, 900, 0.000005],
+  ['uranus', uranusParams, 0.0005, notSun, 1000, 0.000004],
+  ['neptune', neptuneParams, 0.0005, notSun, 1100, 0.000002],
+  ['pluto', plutoParams, 0.0005, notSun, 1300, 0.000001],
 ]
-
-5.8911432148577685
-y
-:
-13.685190197757628
-z
-:
--20.07510898782953
 
