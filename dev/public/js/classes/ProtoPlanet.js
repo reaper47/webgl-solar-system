@@ -22,6 +22,10 @@ class ProtoPlanet {
       this.orbitSegments = orbitParams.segments
       this.orbitColor = orbitParams.color
       this.orbitSpeed = orbitParams.speed
+      
+      this.moonOrbitTheta = 0
+      this.moonOrbitDTheta = 0
+      this.moonOrbitRadius = 0
   }
    
   createTexture(texture : String, normal : String, specular : String, 
@@ -76,6 +80,21 @@ class ProtoPlanet {
 
     return planetMaterial  
   }
+  
+  createSaturnRings() {     
+    const ringGeometry = new THREE.RingGeometry(60, 100, 64, 64, 0, Math.PI * 2)
+    const ringMaterial = new THREE.MeshBasicMaterial({ 
+      map: this.loadTexture('/img/texture_maps/saturn-rings.png'), 
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.6
+    })
+    const ringMesh = new THREE.Mesh(ringGeometry, ringMaterial)
+    ringMesh.rotateX(Math.PI / 2)
+    
+    const saturnObj = this.scene.getObjectByName('saturn')
+    saturnObj.add(ringMesh)
+  }
     
   movePlanet(rotationDir : String, angleAmp : Number) {
     this.angle += angleAmp
@@ -93,6 +112,13 @@ class ProtoPlanet {
     planet.position.z = Math.sin(this.angle * 100) * this.orbitRadius
   }
   
+  moveMoon() {
+    let moon =  this.scene.getObjectByName(this.name)
+    this.moonOrbitTheta += this.moonOrbitDTheta
+    moon.position.x = this.moonOrbitRadius * Math.cos(this.moonOrbitTheta)
+    moon.position.z = this.moonOrbitRadius * Math.sin(this.moonOrbitTheta)
+  }
+  
   // adapted from stackoverflow.com/questions/13756112
   createOrbitRing() {
     const orbitMaterial = new THREE.LineBasicMaterial({ color: this.orbitColor })
@@ -100,11 +126,11 @@ class ProtoPlanet {
     orbitGeometry.vertices.shift();
     
     let orbit = new THREE.Line(orbitGeometry, orbitMaterial)
-    orbit.rotateX(Math.PI / 2)   
+    orbit.rotateX(Math.PI / 2)
     scene.add(orbit)
   }
      
-  createPlanet(params : Object, pos : Object) {
+  createPlanet(params : Object, pos : Object, moonParams=null) {
     this.createTexture(this.params.texture, this.params.normal, this.params.specular,
                        this.params.normalScale, this.params.specularColor)
                        
@@ -121,17 +147,38 @@ class ProtoPlanet {
     if (params.isSun) {
       let sunlight = new THREE.PointLight(0xffffff, 1, params.lightIntensity)
       sunlight.power = params.lightPower
-	  sunlight.add(planetMesh)
-	  this.scene.add(sunlight)
+	    sunlight.add(planetMesh)
+	    this.scene.add(sunlight)
     } else {
-      this.createOrbitRing()
+      if (!this.name.startsWith('moon') && !this.name.startsWith('clouds')) {
+        this.createOrbitRing()
+      }
     }
     
     planetMesh.position.x = Math.cos(this.angle * 100) * this.orbitRadius
     planetMesh.position.z = Math.sin(this.angle * 100) * this.orbitRadius
     
     planetMesh.name = this.name
-    this.scene.add(planetMesh);
+    
+    if (moonParams !== null) {
+      this.moonOrbitRadius = moonParams.radius
+      this.moonOrbitTheta = moonParams.theta
+      this.moonOrbitDTheta = moonParams.dTheta
+      const parentPlanet = this.name.split('-')[1]
+      const planetObj = this.scene.getObjectByName(parentPlanet)
+      planetObj.add(planetMesh);
+    } else if (this.name.startsWith('clouds')) {
+      const parentPlanet = this.name.split('-')[1]
+      const planetObj = this.scene.getObjectByName(parentPlanet)
+      planetObj.add(planetMesh);
+    } else {
+      this.scene.add(planetMesh);
+    }
+
+    if (this.name === 'saturn') {
+      this.createSaturnRings()
+    }
+    
   }
 }
 

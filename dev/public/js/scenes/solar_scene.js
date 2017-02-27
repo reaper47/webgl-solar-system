@@ -24,7 +24,7 @@ function createCamera () {
 
   // to have the perspective from the sun, cameraControl.minDistance = Infinity
   cameraControl.minDistance = 25
-  cameraControl.maxDistance = 48000
+  cameraControl.maxDistance = 46000
 
   cameraControl.rotateSpeed = 1.5
   cameraControl.zoomSpeed = 1.5
@@ -79,7 +79,7 @@ function init () {
   for (let i = 0, n = planets.length; i < n; i++) {
     const orbitParams = {
       radius: planets[i][4],
-      segments: 90,
+      segments: 128,
       color: orbitColors[planets[i][0]],
       speed: planets[i][5]
     }
@@ -89,12 +89,19 @@ function init () {
       planets[i][1], // sphereParams
       scene,         // scene
       planets[i][2], // rotationSpeed
-      false,         // transparent
+      planets[i][0].startsWith('clouds') ? true : false,         // transparent
       orbitParams
     )
 
     planets[i][1]['obj'] = planet
-    planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]})
+    if (planet.name.startsWith('moon')) {
+      planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]}, planets[i][6])
+    } else if (planet.name.startsWith('rings')) {
+      planet.createSaturnRings(planets[i][3], {x: planets[i][4], z: planets[i][4]})
+    } else {
+      planet.createPlanet(planets[i][3], {x: planets[i][4], z: planets[i][4]})
+    }
+
   }
 
   window.addEventListener('resize', onWindowResize, false)
@@ -105,10 +112,14 @@ function init () {
 
 function render () {
   for (let i = 0, n = planets.length; i < n; i++) {
-    if (planets[i][1]['obj'].name !== 'sun') {
-      planets[i][1]['obj'].movePlanet('y', planets[i][5])
+    const planet = planets[i][1]['obj']
+  
+    if (planet.name === 'sun') {
+      scene.getObjectByName('sun').rotateY(planet.rotationSpeed)
+    } else if (planet.name.startsWith('moon')) {
+      planet.moveMoon()
     } else {
-      scene.getObjectByName('sun').rotateY(0.001)
+      planet.movePlanet('y', planets[i][5])
     }
   }
   renderer.render(scene, camera)

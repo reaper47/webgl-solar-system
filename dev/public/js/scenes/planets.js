@@ -55,6 +55,17 @@ const earthParams = {
   'specularColor': 0x262626
 }
 
+const moonParams = {
+  'radius': sizeEarth / 4,
+  'line': 32,
+  'width': 32,
+  'texture': '/img/texture_maps/moon.jpg',
+  'normal': '',
+  'specular': '',
+  'normalScale': 0,
+  'specularColor': 0
+}
+
 const earthCloudsParams = {
   'radius': sizeEarth + 0.1,
   'line': 32,
@@ -141,22 +152,30 @@ const orbitColors = {
   'saturn': 0xFBC02D,
   'uranus': 0x3F51B5,
   'neptune': 0x607D8B,
-  'pluto': 0x9E9E9E
+  'pluto': 0x9E9E9E,
 }
 
-const radiusOffset = 200
+const moonOrbit = {
+  'radius': 25,
+  'theta': 0,
+  'dTheta': 2 * Math.PI / 1000 
+}
+
+const radiusOffset = 215
+const earthRotSpeed = 0.001674
 
 const planets = [
-  ['sun', sunParams, 0.0007, isSun, 0, 0],
-  ['mercury', mercuryParams, 0.0005, notSun, 57 + radiusOffset, 0.00005],
-  ['venus', venusParams, 0.0005, notSun, 108 + radiusOffset, 0.00004],
-  ['earth', earthParams, 0.0005, notSun, 150 + radiusOffset, 0.00003],
-  // ['earthClouds', earthCloudsParams, 0.0007, notSun, 300, 0.001]
-  ['mars', marsParams, 0.0005, notSun, 228 + radiusOffset, 0.00002],
-  ['jupiter', jupiterParams, 0.0005, notSun, 588 + radiusOffset, 0.000008],
-  ['saturn', saturnParams, 0.0005, notSun, 1430 + radiusOffset, 0.000005],
-  ['uranus', uranusParams, 0.0005, notSun, 2570 + radiusOffset, 0.000004],
-  ['neptune', neptuneParams, 0.0005, notSun, 4500 + radiusOffset, 0.000002],
-  ['pluto', plutoParams, 0.0005, notSun, 5910 + radiusOffset, 0.000001]
+  ['sun', sunParams, earthRotSpeed, isSun, 0, 0],
+  ['mercury', mercuryParams, earthRotSpeed , notSun, 57 + radiusOffset, 0.00005],
+  ['venus', venusParams, earthRotSpeed / 4, notSun, 108 + radiusOffset, 0.00004],
+  ['earth', earthParams, earthRotSpeed, notSun, 150 + radiusOffset, 0.00003],
+  ['mars', marsParams, earthRotSpeed / 2, notSun, 228 + radiusOffset, 0.00002],
+  ['jupiter', jupiterParams, earthRotSpeed * 10, notSun, 588 + radiusOffset, 0.000008],
+  ['saturn', saturnParams, earthRotSpeed * 7, notSun, 1430 + radiusOffset, 0.000005],
+  ['uranus', uranusParams, earthRotSpeed * 5, notSun, 2570 + radiusOffset, 0.000004],
+  ['neptune', neptuneParams, earthRotSpeed * 4, notSun, 4500 + radiusOffset, 0.000002],
+  ['pluto', plutoParams, earthRotSpeed / 3, notSun, 5910 + radiusOffset, 0.000001],
+  ['clouds-earth', earthCloudsParams, earthRotSpeed + 0.0001, notSun, 0, 0.001],
+  ['moon-earth', moonParams, earthRotSpeed, notSun, radiusOffset, 0.00003, moonOrbit]
 ]
 

@@ -13,14 +13,14 @@ The solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web
 7. Access `localhost:1337/solar`
 
 ## How to use it localhost under Windows
-1. A build standardization will soon be available for Windows
+1. A uniformed build protocol will soon be available for Windows
 
 ## TODO
-- [ ] Add Saturn's rings
-- [ ] Create a rotating moon around the Earth
+- [X] Add Saturn's rings
+- [X] Create a rotating moon around the Earth
 - [ ] Add flying controls
 - [ ] Add event listeners to every orbit and planet
-- [ ] Add clouds to the Earth without them jagging during the orbit
+- [X] Add clouds to the Earth without them jagging while the earth is orbiting the Sun
 - [ ] Add a starfield when far away from the solar system
-- [ ] Find a high-quality galaxy starfield texture map
+- [X] Find a high-quality galaxy starfield texture map
 - [ ] Write documentation
