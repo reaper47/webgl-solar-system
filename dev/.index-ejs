@@ -4,10 +4,21 @@ INDEXPROD="<!DOCTYPE html>
     <head>
         <meta charset="utf-8">
         <title>Solar System</title>
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel='stylesheet' type='text/css' href='/css/style.css'>
     </head>
-    <body>   
-        <script type="text/javascript" src="/js/bundle.js"></script>
+    <body> 
+        <div class='planet-info'>
+          <p id='name'><span></span></p>
+          <p id='alive'><span></span></p>
+          <p id='dist'><span></span></p>
+          <p id='day'><span></span></p>
+          <p id='year'><span></span></p>
+          <p id='volume'><span></span></p>
+          <p id='gravity'><span></span></p>
+          <p id='density'><span></span></p>
+        </div>
+        
+        <script type='text/javascript' src='/js/bundle.js'></script>
     </body>
 </html>
 "
@@ -17,10 +28,21 @@ INDEXDEV="<!DOCTYPE html>
     <head>
         <meta charset=utf-8>
         <title>Solar System</title>
-        <link rel=stylesheet type=text/css href=/css/style.css>
+        <link rel='stylesheet' type='text/css' href='/css/style.css'>
         <script type=text/javascript src=/js/libs/three.min.js></script>
     </head>
     <body>
+        <div class='planet-info'>
+          <p id='name'><span></span></p>
+          <p id='alive'><span></span></p>
+          <p id='dist'><span></span></p>
+          <p id='day'><span></span></p>
+          <p id='year'><span></span></p>
+          <p id='volume'><span></span></p>
+          <p id='gravity'><span></span></p>
+          <p id='density'><span></span></p>
+        </div>
+        
         <script type=text/javascript src=/js/classes/ProtoPlanet.js></script>
         <script type=text/javascript src=/js/classes/TrackballControls.js></script>
         <script type=text/javascript src=/js/scenes/planets.js></script>

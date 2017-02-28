@@ -3,6 +3,11 @@ let scene
 let camera
 let renderer
 let cameraControl
+let mouse
+let raycaster
+let intersected
+
+init()
 
 function createRenderer () {
   renderer = new THREE.WebGLRenderer()
@@ -15,7 +20,7 @@ function createCamera () {
   camera = new THREE.PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
-    0.01,
+    1,
     100000
   )
   camera.position.set(-701, 547, -1034)
@@ -55,14 +60,6 @@ function createStarfield () {
   scene.add(mesh)
 }
 
-function onWindowResize () {
-  camera.aspect = window.innerWidth / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  cameraControl.handleResize()
-  render()
-}
-
 function animate () {
   requestAnimationFrame(animate)
   cameraControl.update()
@@ -71,10 +68,14 @@ function animate () {
 
 function init () {
   scene = new THREE.Scene()
-
+  
   createRenderer()
   createCamera()
   createStarfield()
+  
+  raycaster = new THREE.Raycaster()
+  mouse = new THREE.Vector2(window.innerWidth * 2 - 1, window.innerHeight * 2 - 1)
+  raycaster.setFromCamera(mouse, camera)
 
   for (let i = 0, n = planets.length; i < n; i++) {
     const orbitParams = {
@@ -105,6 +106,8 @@ function init () {
   }
 
   window.addEventListener('resize', onWindowResize, false)
+  document.addEventListener('mousemove', onDocumentMouseMove, false)
+  
   document.body.appendChild(renderer.domElement)
   animate()
   render()
@@ -123,7 +126,61 @@ function render () {
     }
   }
   renderer.render(scene, camera)
+  
+  let intersections = raycaster.intersectObjects(planetsScene)
+  if (intersections.length > 0) {
+  
+    if (intersected !== intersections[0].object) {
+    
+      if (intersected) {
+        intersected.material.color.setHex(0xffffff)
+      }
+      
+      intersected = intersections[0].object
+      intersected.material.color.setHex(0xff0000)
+      displayInfo(intersected)
+    }
+    
+  } else if (intersected) {
+    intersected.material.color.setHex(0xffffff)
+    intersected = null
+  }
+  
 }
 
-init()
+function displayInfo(object) {
+  let name = object.name
+  let nameColor = orbitColors[name]
+  
+  if (name.startsWith('clouds')) {
+    name = name.split('-')[1]
+    nameColor = orbitColors[name]
+  } else if (name.startsWith('moon')) {
+    if (name.split('-')[1] === 'earth') {
+      name = 'The Moon'
+    } else {
+      name = name.split('-')[1]
+    }
+  }
+  name = String.fromCharCode(name[0].charCodeAt() & 0xdf).concat(name.slice(1))
+
+  let planetDiv = [...document.getElementById('planet-info').childNodes]
+  planetDiv[1].innerHTML = name
+  planetDiv[1].style.color = `#${nameColor.toString(16)}`
+  
+}
+
+function onWindowResize () {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  cameraControl.handleResize()
+  render()
+}
+
+function onDocumentMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera)
+}
 
