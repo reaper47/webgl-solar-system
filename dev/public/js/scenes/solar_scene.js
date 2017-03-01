@@ -128,6 +128,7 @@ function render () {
   renderer.render(scene, camera)
   
   let intersections = raycaster.intersectObjects(planetsScene)
+  
   if (intersections.length > 0) {
   
     if (intersected !== intersections[0].object) {
@@ -137,37 +138,62 @@ function render () {
       }
       
       intersected = intersections[0].object
-      intersected.material.color.setHex(0xff0000)
-      displayInfo(intersected)
+      intersected.material.color.setHex(orbitColors[intersected.name])
+      
+      const planetInfo = document.getElementById('planet-info')
+      if (planetInfo.className === 'yay-slidein' || 
+          planetInfo.className === '') {
+        planetInfo.className = 'boo-slideout'
+        setTimeout( () => {
+          planetInfo.className = 'yay-slidein'
+          displayInfo(intersected)
+        }, 500);
+      }
+
     }
     
   } else if (intersected) {
     intersected.material.color.setHex(0xffffff)
-    intersected = null
   }
-  
 }
 
-function displayInfo(object) {
-  let name = object.name
+function displayInfo(obj) {  
+  let name = obj.name
   let nameColor = orbitColors[name]
   
   if (name.startsWith('clouds')) {
     name = name.split('-')[1]
     nameColor = orbitColors[name]
   } else if (name.startsWith('moon')) {
-    if (name.split('-')[1] === 'earth') {
-      name = 'The Moon'
+    if (name.split('-')[1] === 'tellus') {
+      name = 'Moon'
     } else {
       name = name.split('-')[1]
     }
   }
   name = String.fromCharCode(name[0].charCodeAt() & 0xdf).concat(name.slice(1))
-
-  let planetDiv = [...document.getElementById('planet-info').childNodes]
-  planetDiv[1].innerHTML = name
-  planetDiv[1].style.color = `#${nameColor.toString(16)}`
   
+  const ids = ['name', 'alive', 'dist', 'day', 'year', 'volume', 'gravity', 'density']
+  let planetDiv = [...document.getElementById('planet-info').children]
+
+  for (let i = 0; i < ids.length; i++) {
+    let ptag = planetDiv[i]
+    const id = ids[i]
+    const descriptor = planetDescriptors[obj.name][id]
+    
+    if (id === 'name') {
+      ptag.innerHTML = `<span>${descriptor}</span> ${name}`
+      if (ptag.className !== 'title') {
+        ptag.className += 'title'
+      }      
+    } else {
+      ptag.innerHTML = 
+      `${descriptor[0]} 
+      <span id=${orbitColors.name}>${descriptor[1]}</span> 
+      ${descriptor[2]}`
+    }
+    ptag.children[0].style.color = `#${nameColor.toString(16)}`
+  }
 }
 
 function onWindowResize () {

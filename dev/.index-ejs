@@ -7,15 +7,15 @@ INDEXPROD="<!DOCTYPE html>
         <link rel='stylesheet' type='text/css' href='/css/style.css'>
     </head>
     <body> 
-        <div class='planet-info'>
-          <p id='name'><span></span></p>
-          <p id='alive'><span></span></p>
-          <p id='dist'><span></span></p>
-          <p id='day'><span></span></p>
-          <p id='year'><span></span></p>
-          <p id='volume'><span></span></p>
-          <p id='gravity'><span></span></p>
-          <p id='density'><span></span></p>
+        <div id='planet-info'>
+          <p id='name'></p>
+          <p id='alive'></p>
+          <p id='dist'></p>
+          <p id='day'></p>
+          <p id='year'></p>
+          <p id='volume'></p>
+          <p id='gravity'></p>
+          <p id='density'></p>
         </div>
         
         <script type='text/javascript' src='/js/bundle.js'></script>
@@ -32,15 +32,15 @@ INDEXDEV="<!DOCTYPE html>
         <script type=text/javascript src=/js/libs/three.min.js></script>
     </head>
     <body>
-        <div class='planet-info'>
-          <p id='name'><span></span></p>
-          <p id='alive'><span></span></p>
-          <p id='dist'><span></span></p>
-          <p id='day'><span></span></p>
-          <p id='year'><span></span></p>
-          <p id='volume'><span></span></p>
-          <p id='gravity'><span></span></p>
-          <p id='density'><span></span></p>
+        <div id='planet-info'>
+          <p id='name'></p>
+          <p id='alive'></p>
+          <p id='dist'></p>
+          <p id='day'></p>
+          <p id='year'></p>
+          <p id='volume'></p>
+          <p id='gravity'></p>
+          <p id='density'></p>
         </div>
         
         <script type=text/javascript src=/js/classes/ProtoPlanet.js></script>

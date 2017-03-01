@@ -135,7 +135,7 @@ const neptuneParams = {
 }
 
 const plutoParams = {
-  'radius': sizeEarth,
+  'radius': sizeEarth*3,
   'line': 32,
   'width': 32,
   'texture': '/img/texture_maps/2k_ceres_fictional.jpg',
@@ -187,8 +187,8 @@ const planetDescriptors = {
   'solis': {
     'name': 'Burning',
     'alive': ['Blazing for ', '4.57', ' billion years'],
-    'dist': ['Stuck at the center of the ', 'heavens'],
-    'day': ['Observing every of my children every ', '25.38', ' days'],
+    'dist': ['Stuck at the center of the ', 'heavens', ''],
+    'day': ['Observing every of its children every ', '25.38', ' days'],
     'year': ['Watching them go ', 'round', ''],
     'volume': ['Eating',  '1,300,000', ' Earths'],
     'gravity': ['Attracting you ', '27.94g', 'times more'],
@@ -214,7 +214,7 @@ const planetDescriptors = {
     'gravity': ['Lifting ', '0.904g', ' times less weights than Earth'],
     'density': ['5.243 g/cm3'],
   },
-  'tellus': {
+  'clouds-tellus': {
     'name': 'Inflexible',
     'alive': ['Feverish for ', '4.54', ' billion years'],
     'dist': ['Resting ', '1.000 001 018 AU', ' et a sole'],
@@ -285,7 +285,7 @@ const planetDescriptors = {
     'density': ['1.860 g/cm3'],
   },
   'moon-tellus': {
-    'name': 'Inflexible',
+    'name': 'Exhuberant',
     'alive': ['Feverish for ', '4.51', ' billion years'],
     'dist': ['Resting ', '384399 km 1.28 light-seconds', ' et a sole'],
     'day': ['Winning a ', 'revolution', 'every 29.5d'],
