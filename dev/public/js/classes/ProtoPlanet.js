@@ -110,6 +110,7 @@ class ProtoPlanet {
        
     planet.position.x = Math.cos(this.angle * 100) * this.orbitRadius
     planet.position.z = Math.sin(this.angle * 100) * this.orbitRadius
+
   }
   
   moveMoon() {
@@ -127,6 +128,7 @@ class ProtoPlanet {
     
     let orbit = new THREE.Line(orbitGeometry, orbitMaterial)
     orbit.rotateX(Math.PI / 2)
+    orbitsScene.push(orbit)
     scene.add(orbit)
   }
      
@@ -157,8 +159,9 @@ class ProtoPlanet {
     
     planetMesh.position.x = Math.cos(this.angle * 100) * this.orbitRadius
     planetMesh.position.z = Math.sin(this.angle * 100) * this.orbitRadius
-    
+
     planetMesh.name = this.name
+    planetsScene.push(planetMesh)
     
     if (moonParams !== null) {
       this.moonOrbitRadius = moonParams.radius
