@@ -218,7 +218,7 @@ const planetDescriptors = {
     'name': 'Grandiose',
     'alive': ['Alive for ', '4.54', ' billion years'],
     'dist': ['Relaxing at ', '1.000 001 018 AU', ' et a sole'],
-    'day': ['Cycles of ', 'day and night', ' lasts 24h'],
+    'day': ['Cycles of ', 'day and night', ' last 24h'],
     'year': ['Spanning four ', 'seasons', ' over 365 days'],
     'volume': ['Providing shelter for ', '7.4 billion', ' homo sapiens'],
     'gravity': ['Keeping everything on the ', 'ground', ' with its 1.00g'],

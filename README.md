@@ -14,5 +14,6 @@ The solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web
 ## How to use it localhost under Windows
 0. Install NodeJS from https://nodejs.org/en/
 1. Navigate to [...]\webgl-solar-system\dev
-2. Execute build.bat
-3. Fire a broswer to `localhost:1337`
+2. Execute build.bat.
+4. Wait for installation to finish and do not close the black box.
+5. Fire a broswer to `localhost:1337`
