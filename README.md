@@ -11,5 +11,7 @@ The solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web
 5. Fire a broswer to `localhost:1337`
 
 ## How to use it localhost under Windows
-1. A uniformed build protocol will soon be available for Windows
-
+0. Install NodeJS from https://nodejs.org/en/
+1. Navigate to [...]\webgl-solar-system\dev
+2. Execute build.exe
+3. Fire a broswer to `localhost:1337`
