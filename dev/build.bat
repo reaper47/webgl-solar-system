@@ -3,6 +3,7 @@ IF EXIST ..\node_modules (
   call:setup
 ) ELSE (
   echo f | npm install
+  echo f | npm install -g babel-cli
   call:setup
 )
 

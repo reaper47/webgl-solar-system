@@ -6,9 +6,10 @@ The solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web
 ## How to use it localhost under Linux
 1. Open a terminal in the project directory
 2. `npm install`
-3. `npm run-script build`
-4. `npm start`
-5. Fire a broswer to `localhost:1337`
+3. `npm install -g babel-cli`
+4. `npm run-script build`
+5. `npm start`
+6. Fire a broswer to `localhost:1337`
 
 ## How to use it localhost under Windows
 0. Install NodeJS from https://nodejs.org/en/
