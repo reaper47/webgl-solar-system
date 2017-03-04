@@ -92,7 +92,7 @@ class ProtoPlanet {
     const ringMesh = new THREE.Mesh(ringGeometry, ringMaterial)
     ringMesh.rotateX(Math.PI / 2)
     
-    const saturnObj = this.scene.getObjectByName('saturn')
+    const saturnObj = this.scene.getObjectByName('saturnus')
     saturnObj.add(ringMesh)
   }
     
@@ -178,7 +178,7 @@ class ProtoPlanet {
       this.scene.add(planetMesh);
     }
 
-    if (this.name === 'saturn') {
+    if (this.name === 'saturnus') {
       this.createSaturnRings()
     }
     
