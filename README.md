@@ -1,5 +1,7 @@
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
+![ScreenShot](/dev/solar.png)
+
 # webgl-solar-system
 The solar system built using WebGL for the FutureLearn MOOC "3D Graphics for Web Developers."
 
